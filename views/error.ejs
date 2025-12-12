@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Error - TodoPro</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">TodoPro</div>
+    <div></div>
+  </div>
+  
+  <div class="container auth-hot">
+    <div class="card auth-card">
+      <h2>Oops!</h2>
+      <p class="small" style="margin: 16px 0; color: var(--danger);"><%= message %></p>
+      
+      <% if (error && error.stack && process.env.NODE_ENV === 'development') { %>
+        <details style="margin-top: 16px;">
+          <summary>Error Details (Development)</summary>
+          <pre style="font-size: 12px; margin-top: 8px; color: var(--muted);"><%= error.stack %></pre>
+        </details>
+      <% } %>
+      
+      <div style="margin-top: 20px;">
+        <a href="/todos" class="btn primary" style="text-decoration: none; display: inline-block;">Go to Todos</a>
+        <a href="/login" class="btn ghost" style="text-decoration: none; display: inline-block; margin-left: 10px;">Login</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>TodoPro</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">TodoPro</div>
+    <div class="controls">
+      <div id="counts" class="small"><%= todos.length %> total • <%= todos.filter(t => t.completed).length %> done • <%= todos.filter(t => !t.completed).length %> pending</div>
+      
+      <form method="POST" action="/logout" style="display:inline;">
+        <button class="logout-btn">Logout</button>
+      </form>
+
+      <div class="toggle">
+        <button id="themeLight">Light</button>
+        <button id="themeDark" class="active">Dark</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Add card -->
+    <section class="card composer">
+      <div class="heading">Add Task</div>
+      <form id="addForm" method="POST" action="/todos">
+        <input class="input-full" type="text" name="task" id="taskInput" placeholder="What needs to be done?" required />
+        <div class="row">
+          <input class="small-input" type="time" name="time" />
+          <select name="category" class="small-input">
+            <option>General</option>
+            <option>Work</option>
+            <option>Personal</option>
+            <option>Urgent</option>
+          </select>
+          <select name="priority" class="small-input">
+            <option>Low</option>
+            <option selected>Medium</option>
+            <option>High</option>
+          </select>
+          <button class="btn primary" type="submit">Add</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Toolbar -->
+    <section class="card toolbar">
+      <input id="search" class="search" placeholder="Search tasks..." />
+      <div style="width:12px"></div>
+      <select class="small-input"><option>All</option><option>Pending</option><option>Completed</option></select>
+      <select class="small-input"><option>Newest</option><option>Oldest</option><option>Priority</option></select>
+      <button class="btn ghost">Clear completed</button>
+    </section>
+
+    <!-- List -->
+    <section id="list" class="list">
+      <% if (!todos || todos.length === 0) { %>
+        <div class="card small">No tasks yet. Add one above.</div>
+      <% } else { %>
+        <% todos.forEach(function(t) { %>
+          <div class="todo <%= t.completed ? 'completed' : '' %>">
+            <div class="todo-left">
+              <button 
+                class="checkbox" 
+                aria-label="toggle"
+                data-id="<%= t._id %>"
+                data-completed="<%= t.completed %>"
+              ></button>
+              <div>
+                <div class="todo-title"><%= t.task %></div>
+                <div class="todo-meta">
+                  <% if (t.time) { %>
+                    <span class="chip"><%= t.time %></span>
+                  <% } %>
+                  <span class="chip"><%= t.category || 'General' %></span>
+                  <span class="chip"><%= t.priority || 'Medium' %></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <form method="POST" action="/todos/<%= t._id %>/delete" style="display:inline;">
+                <button type="submit" class="btn small btn-delete" data-action="delete" data-id="<%= t._id %>">Delete</button>
+              </form>
+
+              <button class="btn small btn-ghost" 
+                data-action="edit"
+                data-id="<%= t._id %>"
+                data-task="<%= t.task.replace(/"/g, '&quot;') %>"
+                data-time="<%= t.time %>">Edit</button>
+            </div>
+          </div>
+        <% }); %>
+      <% } %>
+    </section>
+
+    <div class="footer">Signed in as <strong><%= (typeof username !== 'undefined') ? username : 'you' %></strong></div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
