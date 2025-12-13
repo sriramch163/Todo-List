@@ -40,6 +40,7 @@ The application follows a professional MVC (Model-View-Controller) architecture 
 ├── .dockerignore         # Docker ignore rules
 ├── Dockerfile            # Docker container configuration
 ├── docker-compose.yml    # Multi-container Docker setup
+├── AWS-EKS.pdf           # AWS EKS deployment documentation
 ├── views/                 # EJS templates
 │   ├── login.ejs
 │   ├── register.ejs
@@ -48,15 +49,20 @@ The application follows a professional MVC (Model-View-Controller) architecture 
 ├── public/                # Static assets
 │   ├── styles.css         # Modern CSS with theme support
 │   └── app.js             # Client-side JavaScript
-└── k8s/                   # Kubernetes deployment files
-    ├── namespace.yaml     # Kubernetes namespace
-    ├── configmap.yaml     # Configuration management
-    ├── secret.yaml        # Secrets management
-    ├── mongo-deployment.yaml  # MongoDB deployment
-    ├── mongo-service.yaml     # MongoDB service
-    ├── todoapp-deployment.yaml # Application deployment
-    ├── todoapp-service.yaml   # Application service
-    └── deploy.sh          # Deployment script
+├── k8s/                   # Kubernetes deployment files
+│   ├── namespace.yaml     # Kubernetes namespace
+│   ├── configmap.yaml     # Configuration management
+│   ├── secret.yaml        # Secrets management
+│   ├── mongo-deployment.yaml  # MongoDB deployment
+│   ├── mongo-service.yaml     # MongoDB service
+│   ├── todoapp-deployment.yaml # Application deployment
+│   ├── todoapp-service.yaml   # Application service
+│   └── deploy.sh          # Deployment script
+└── Screenshots/           # Project screenshots and documentation
+    ├── AWS-EKS-ScreenShots/
+    ├── docker-images-containers-screenshots/
+    ├── Mongo-Verification-Screenshots/
+    └── Web-Accessing-Screenshots/
 ```
 
 ## 🚀 Quick Start
@@ -124,6 +130,8 @@ The application follows a professional MVC (Model-View-Controller) architecture 
 3. **Access the application**
    Open your browser and navigate to `http://localhost:3000`
 
+📖 **For detailed Docker setup instructions, see [Docker README](./docker/README.md)**
+
 #### Option 3: Kubernetes Deployment
 
 1. **Deploy to Kubernetes**
@@ -137,6 +145,8 @@ The application follows a professional MVC (Model-View-Controller) architecture 
    ```bash
    kubectl get services -n todoapp
    ```
+
+📖 **For detailed Kubernetes setup instructions, see [Kubernetes README](./k8s/README.md)**
 
 ## 🔧 Configuration
 
@@ -199,9 +209,9 @@ The application automatically creates the required collections:
 
 ```bash
 npm start      # Start production server
-npm run dev    # Start development server with auto-reload
-npm test       # Run tests (to be implemented)
-npm run lint   # Code linting (to be implemented)
+npm run dev    # Start development server with nodemon auto-reload
+npm test       # Run tests (not yet implemented)
+npm run lint   # Code linting (not yet configured)
 ```
 
 ## 🔒 Security Features
@@ -248,12 +258,9 @@ npm run lint   # Code linting (to be implemented)
 
 ### Docker Deployment
 
-#### Build and Run Locally
+#### Quick Start
 ```bash
-# Build the Docker image
-docker build -t todoapp .
-
-# Run with Docker Compose
+# Build and run with Docker Compose
 docker-compose up -d
 
 # View logs
@@ -263,35 +270,23 @@ docker-compose logs -f
 docker-compose down
 ```
 
+📖 **For detailed Docker instructions, see [Docker README](./docker/README.md)**
+
 ### Kubernetes Deployment
 
-#### Prerequisites
-- Kubernetes cluster (local or cloud)
-- kubectl configured
-- Docker images built and pushed to registry
-
-#### Deploy to Kubernetes
+#### Quick Start
 ```bash
-# Navigate to k8s directory
+# Deploy to Kubernetes
 cd k8s
-
-# Make deploy script executable
 chmod +x deploy.sh
-
-# Run deployment
 ./deploy.sh
 
-# Check deployment status
+# Check status
 kubectl get pods -n todoapp
 kubectl get services -n todoapp
 ```
 
-#### Kubernetes Resources
-- **Namespace**: Isolated environment for the application
-- **ConfigMap**: Non-sensitive configuration data
-- **Secret**: Sensitive data like database credentials
-- **Deployments**: MongoDB and TodoApp deployments
-- **Services**: Internal and external service exposure
+📖 **For detailed Kubernetes instructions, see [Kubernetes README](./k8s/README.md)**
 
 ### Traditional Deployment
 
@@ -327,6 +322,22 @@ pm2 monit
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📸 Screenshots
+
+The `Screenshots/` directory contains visual documentation of the application:
+
+- **AWS-EKS-ScreenShots/**: Kubernetes deployment on AWS EKS
+- **docker-images-containers-screenshots/**: Docker containerization process
+- **Mongo-Verification-Screenshots/**: Database verification and data
+- **Web-Accessing-Screenshots/**: Application UI and functionality
+
+## 📚 Additional Documentation
+
+- **[Docker Setup Guide](./docker/README.md)** - Detailed Docker containerization instructions
+- **[Kubernetes Deployment Guide](./k8s/README.md)** - Complete Kubernetes deployment documentation
+- **[AWS EKS Documentation](./AWS-EKS.pdf)** - Comprehensive AWS EKS deployment guide
+- **[Screenshots Gallery](./Screenshots/)** - Visual documentation and deployment evidence
 
 ## 🙏 Acknowledgments
 
