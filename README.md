@@ -21,7 +21,7 @@ A modern, full-featured Node.js todo list application with user authentication, 
 
 ## 🏗️ Architecture
 
-The application follows a professional MVC (Model-View-Controller) architecture:
+The application follows a professional MVC (Model-View-Controller) architecture with Docker and Kubernetes support:
 
 ```
 ├── server.js              # Main application entry point
@@ -32,16 +32,31 @@ The application follows a professional MVC (Model-View-Controller) architecture:
 ├── todoController.js      # Todo management logic
 ├── User.js                # User data model
 ├── Todo.js                # Todo data model
+├── package.json           # Node.js dependencies and scripts
+├── package-lock.json      # Dependency lock file
+├── .env                   # Environment variables (local)
 ├── .env.example           # Environment variables template
 ├── .gitignore            # Git ignore rules
+├── .dockerignore         # Docker ignore rules
+├── Dockerfile            # Docker container configuration
+├── docker-compose.yml    # Multi-container Docker setup
 ├── views/                 # EJS templates
 │   ├── login.ejs
 │   ├── register.ejs
 │   ├── todos.ejs
 │   └── error.ejs
-└── public/                # Static assets
-    ├── styles.css         # Modern CSS with theme support
-    └── app.js             # Client-side JavaScript
+├── public/                # Static assets
+│   ├── styles.css         # Modern CSS with theme support
+│   └── app.js             # Client-side JavaScript
+└── k8s/                   # Kubernetes deployment files
+    ├── namespace.yaml     # Kubernetes namespace
+    ├── configmap.yaml     # Configuration management
+    ├── secret.yaml        # Secrets management
+    ├── mongo-deployment.yaml  # MongoDB deployment
+    ├── mongo-service.yaml     # MongoDB service
+    ├── todoapp-deployment.yaml # Application deployment
+    ├── todoapp-service.yaml   # Application service
+    └── deploy.sh          # Deployment script
 ```
 
 ## 🚀 Quick Start
@@ -53,10 +68,12 @@ The application follows a professional MVC (Model-View-Controller) architecture:
 
 ### Installation
 
+#### Option 1: Local Development
+
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd todo-list-app
+   cd To-do-list
    ```
 
 2. **Install dependencies**
@@ -90,6 +107,36 @@ The application follows a professional MVC (Model-View-Controller) architecture:
 
 6. **Access the application**
    Open your browser and navigate to `http://localhost:3000`
+
+#### Option 2: Docker Development
+
+1. **Clone and navigate**
+   ```bash
+   git clone <repository-url>
+   cd To-do-list
+   ```
+
+2. **Run with Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Access the application**
+   Open your browser and navigate to `http://localhost:3000`
+
+#### Option 3: Kubernetes Deployment
+
+1. **Deploy to Kubernetes**
+   ```bash
+   cd k8s
+   chmod +x deploy.sh
+   ./deploy.sh
+   ```
+
+2. **Access via kubectl**
+   ```bash
+   kubectl get services -n todoapp
+   ```
 
 ## 🔧 Configuration
 
@@ -199,7 +246,56 @@ npm run lint   # Code linting (to be implemented)
 
 ## 🚀 Deployment
 
-### Production Checklist
+### Docker Deployment
+
+#### Build and Run Locally
+```bash
+# Build the Docker image
+docker build -t todoapp .
+
+# Run with Docker Compose
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### Kubernetes Deployment
+
+#### Prerequisites
+- Kubernetes cluster (local or cloud)
+- kubectl configured
+- Docker images built and pushed to registry
+
+#### Deploy to Kubernetes
+```bash
+# Navigate to k8s directory
+cd k8s
+
+# Make deploy script executable
+chmod +x deploy.sh
+
+# Run deployment
+./deploy.sh
+
+# Check deployment status
+kubectl get pods -n todoapp
+kubectl get services -n todoapp
+```
+
+#### Kubernetes Resources
+- **Namespace**: Isolated environment for the application
+- **ConfigMap**: Non-sensitive configuration data
+- **Secret**: Sensitive data like database credentials
+- **Deployments**: MongoDB and TodoApp deployments
+- **Services**: Internal and external service exposure
+
+### Traditional Deployment
+
+#### Production Checklist
 - [ ] Set `NODE_ENV=production`
 - [ ] Configure secure `SESSION_SECRET`
 - [ ] Set up MongoDB Atlas or production database
@@ -208,7 +304,7 @@ npm run lint   # Code linting (to be implemented)
 - [ ] Configure reverse proxy (Nginx)
 - [ ] Set up monitoring and logging
 
-### Environment Setup
+#### Environment Setup
 ```bash
 # Install PM2 for process management
 npm install -g pm2
