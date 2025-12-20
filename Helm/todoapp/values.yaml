@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=
+# Default values for todoapp.
+replicaCount: 2
+
+namespace:
+  name: todoapp
+
+todoapp:
+  image:
+    repository: sriram084/todo
+    tag: v1
+    pullPolicy: IfNotPresent
+  service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 3000
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  config:
+    nodeEnv: "production"
+    port: "3000"
+  secret:
+    sessionSecret: "eW91ci1zdXBlci1zZWNyZXQtc2Vzc2lvbi1rZXk="
+
+mongo:
+  image:
+    repository: sriram084/mongo
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    port: 27017
+    targetPort: 27017
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  storage:
+    type: emptyDir
+
