@@ -21,7 +21,7 @@ A modern, full-featured Node.js todo list application with user authentication, 
 
 ## 🏗️ Architecture
 
-The application follows a professional MVC (Model-View-Controller) architecture with Docker and Kubernetes support:
+The application follows a professional MVC (Model-View-Controller) architecture with Docker, Kubernetes, and Helm support:
 
 ```
 ├── server.js              # Main application entry point
@@ -48,15 +48,30 @@ The application follows a professional MVC (Model-View-Controller) architecture 
 ├── public/                # Static assets
 │   ├── styles.css         # Modern CSS with theme support
 │   └── app.js             # Client-side JavaScript
-└── k8s/                   # Kubernetes deployment files
-    ├── namespace.yaml     # Kubernetes namespace
-    ├── configmap.yaml     # Configuration management
-    ├── secret.yaml        # Secrets management
-    ├── mongo-deployment.yaml  # MongoDB deployment
-    ├── mongo-service.yaml     # MongoDB service
-    ├── todoapp-deployment.yaml # Application deployment
-    ├── todoapp-service.yaml   # Application service
-    └── deploy.sh          # Deployment script
+├── k8s/                   # Kubernetes deployment files
+│   ├── namespace.yaml     # Kubernetes namespace
+│   ├── configmap.yaml     # Configuration management
+│   ├── secret.yaml        # Secrets management
+│   ├── mongo-deployment.yaml  # MongoDB deployment
+│   ├── mongo-service.yaml     # MongoDB service
+│   ├── todoapp-deployment.yaml # Application deployment
+│   ├── todoapp-service.yaml   # Application service
+│   └── deploy.sh          # Deployment script
+└── Helm/                  # Helm chart for Kubernetes deployment
+    └── todoapp/
+        ├── charts/        # Chart dependencies
+        ├── templates/     # Kubernetes manifest templates
+        │   ├── configmap.yaml
+        │   ├── mongo-deployment.yaml
+        │   ├── mongo-service.yaml
+        │   ├── namespace.yaml
+        │   ├── secret.yaml
+        │   ├── todoapp-deployment.yaml
+        │   └── todoapp-service.yaml
+        ├── .helmignore    # Helm ignore file
+        ├── Chart.yaml     # Chart metadata
+        ├── values.yaml    # Default configuration values
+        └── todoapp-0.1.0.tgz # Packaged Helm chart
 ```
 
 ## 🚀 Quick Start
@@ -136,6 +151,20 @@ The application follows a professional MVC (Model-View-Controller) architecture 
 2. **Access via kubectl**
    ```bash
    kubectl get services -n todoapp
+   ```
+
+#### Option 4: Helm Deployment
+
+1. **Deploy using Helm**
+   ```bash
+   cd Helm
+   helm install todoapp ./todoapp
+   ```
+
+2. **Check deployment**
+   ```bash
+   helm status todoapp
+   kubectl get pods -n todoapp
    ```
 
 ## 🔧 Configuration
@@ -292,6 +321,21 @@ kubectl get services -n todoapp
 - **Secret**: Sensitive data like database credentials
 - **Deployments**: MongoDB and TodoApp deployments
 - **Services**: Internal and external service exposure
+
+### Helm Deployment
+
+#### Quick Start
+```bash
+# Install with Helm
+cd Helm
+helm install todoapp ./todoapp
+
+# Upgrade deployment
+helm upgrade todoapp ./todoapp
+
+# Uninstall
+helm uninstall todoapp
+```
 
 ### Traditional Deployment
 
